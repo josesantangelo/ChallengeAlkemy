@@ -16,8 +16,8 @@ import axios from "axios";
 import IncomeDrawer from './components/IncomeDrawer';
 import ExpenseDrawer from './components/ExpenseDrawer';
 import MovementInfo from './components/MovementInfo';
-import { filterButtons } from './utils/constants'
-import { getInfo } from './utils/functions'
+// import { filterButtons } from './utils/constants'
+import { getInfo, calculateBalance, filterInfo } from './utils/functions'
 
 
 
@@ -44,6 +44,11 @@ function App() {
   const [visibleNumbers, setVisibleNumbers] = useState(false);
   const [originalInfo, setOriginalInfo] = useState([]);
   const [visibleInfo, setVisibleInfo] = useState([])
+  const [accountBalance, setaccountBalance] = useState({
+    balance: 0,
+    incomes: 0,
+    expenses: 0,
+  })
 
   //useEffects : 
   useEffect(async () => {
@@ -52,43 +57,56 @@ function App() {
     setVisibleInfo(result)
   }, [])
 
+  useEffect(() => {
+    let result = calculateBalance(originalInfo)
+    setaccountBalance(result)
+  }, [originalInfo])
 
 
+  //maps & aux functions
   const balanceInfo = [
     {
       header: "Balance",
-      // info: balance,
+      info: accountBalance.balance,
       add: false,
     },
     {
       header: "Ingresos",
-      // info: incomes,
+      info: accountBalance.incomes,
       add: true,
       modal: onOpenIncomeDrawer,
     },
     {
       header: "Gastos",
-      // info: expenses,
+      info: accountBalance.expenses,
       add: true,
       modal: onOpenExpenseDrawer,
     },
   ]
-  // let visibleInfo = [
-  //   {
-  //     "id": 1,
-  //     "concept": "Ir al cine",
-  //     "date": "20/7/2021",
-  //     "amount": -250,
-  //     "type": "expense"
-  //   },
-  //   {
-  //     "id": 2,
-  //     "concept": "Plazo Fijo",
-  //     "date": "5/7/2021",
-  //     "amount": 2500,
-  //     "type": "income"
-  //   },
-  // ]
+
+  const filterButtons = [
+    {
+      key: 'incomeFilterButton',
+      text: "Ingresos",
+      hover: { backgroundColor: "green.200" },
+      functionKey: 'income',
+      click: filterInfo(originalInfo, 'income')
+    },
+    {
+      key: 'clearFiltersButton',
+      text: "Ver todo",
+      hover: { backgroundColor: "gray.200" },
+      click: filterInfo(originalInfo, '')
+    },
+    {
+      key: 'expenseFilterButton',
+      text: "Gastos",
+      hover: { backgroundColor: "pink.200" },
+      functionKey: 'expense',
+      click: filterInfo(originalInfo, 'expense')
+    },
+  ]
+
 
 
 
@@ -158,7 +176,12 @@ function App() {
       <ButtonGroup flexDirection="row" justifyContent="center" width="full" paddingTop={4} gap={6}>
         {filterButtons.map(element => {
           return (
-            <Button key={element.key} colorScheme="whatsapp" fontSize={14} variant="outline" _hover={element.hover}>
+            <Button key={element.key} colorScheme="whatsapp" fontSize={14} variant="outline" _hover={element.hover}
+              onClick={() => {
+                let result = element.click;
+                setVisibleInfo(result);
+              }}
+            >
               {element.text}
             </Button>
           )

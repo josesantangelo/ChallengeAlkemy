@@ -1,3 +1,5 @@
+import { filterInfo } from "./functions"
+
 export const balanceInfo = [
     {
         header: "Balance",
@@ -18,23 +20,25 @@ export const balanceInfo = [
     },
 ]
 
-export const filterButtons = [
-    {
-        key: 'incomeFilterButton',
-        text: "Ingresos",
-        hover: { backgroundColor: "green.200" },
-        // click: filterInfo(originalInfo, 'income')
-    },
-    {
-        key: 'clearFiltersButton',
-        text: "Ver todo",
-        hover: { backgroundColor: "gray.200" },
-        // click: setVisibleInfo(originalInfo)
-    },
-    {
-        key: 'expenseFilterButton',
-        text: "Gastos",
-        hover: { backgroundColor: "pink.200" },
-        // click: filterInfo(originalInfo, 'expense')
-    },
-]
+
+
+// export const filterButtons = [
+//     {
+//         key: 'incomeFilterButton',
+//         text: "Ingresos",
+//         hover: { backgroundColor: "green.200" },
+//         click: filterInfo(arr, 'income')
+//     },
+//     {
+//         key: 'clearFiltersButton',
+//         text: "Ver todo",
+//         hover: { backgroundColor: "gray.200" },
+//         click: setVisibleInfo(originalInfo)
+//     },
+//     {
+//         key: 'expenseFilterButton',
+//         text: "Gastos",
+//         hover: { backgroundColor: "pink.200" },
+//         click: filterInfo(arr, 'expense')
+//     },
+// ]
