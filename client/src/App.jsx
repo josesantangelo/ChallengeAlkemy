@@ -49,6 +49,12 @@ function App() {
     incomes: 0,
     expenses: 0,
   })
+  const [selectedMovement, setSelectedMovement] = useState({
+    concept: "",
+    date: "",
+    amount: 0,
+    type: "",
+  });
 
   //useEffects : 
   useEffect(async () => {
@@ -191,8 +197,8 @@ function App() {
       {visibleInfo.length ? <Stack color="white" paddingTop={4}>
         {
           visibleInfo.map(element => {
-            // let modal;
-            // element.type === "income" ? modal = onOpenIncomeDrawer : modal = onOpenExpenseModal
+            let modal;
+            element.type === "income" ? modal = onOpenIncomeDrawer : modal = onOpenExpenseDrawer
             return (
               <MovementInfo
                 key={element.id}
@@ -200,8 +206,8 @@ function App() {
                 concept={element.concept}
                 date={element.date}
                 type={element.type}
-              // modal={modal}
-              // stateManager={setSelectedMovement}
+                modal={modal}
+                stateManager={setSelectedMovement}
               />
             );
           }).slice(0, 10)}
@@ -214,6 +220,8 @@ function App() {
         isOpen={isOpenIncomeDrawer}
         onClose={onCloseIncomeDrawer}
         onOpen={onOpenIncomeDrawer}
+        item={selectedMovement}
+        stateManager={setSelectedMovement}
       />
 
 
@@ -221,6 +229,8 @@ function App() {
         isOpen={isOpenExpenseDrawer}
         onClose={onCloseExpenseDrawer}
         onOpen={onOpenExpenseDrawer}
+        item={selectedMovement}
+        stateManager={setSelectedMovement}
       />
 
 

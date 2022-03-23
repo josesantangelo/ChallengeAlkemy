@@ -1,4 +1,6 @@
+import { createStandaloneToast, Spinner, useToast } from "@chakra-ui/react";
 import axios from "axios";
+
 
 export const getInfo = async () => {
     const info = await axios.get("https://pacific-lowlands-66049.herokuapp.com/");
@@ -44,3 +46,92 @@ export const filterInfo = (arr, str) => {
     })
     return result
 }
+
+
+
+export const customizeDate = (str) => {
+    let customDate = str.replaceAll('/', '-').split('-').reverse()
+    if (customDate[1].length === 1) {
+        customDate[1] = `0${customDate[1]}`
+    }
+    if (customDate[2].length === 1) {
+        customDate[2] = `0${customDate[2]}`
+    }
+    customDate = customDate.join('-')
+    return customDate
+}
+
+
+export const postMovement = async (state, chakraTool) => {
+    chakraTool({
+        title: "Procesando...",
+        description: "",
+        status: 'info',
+        duration: 2000,
+        isClosable: true,
+        position: "top-right"
+    })
+    try {
+        await axios.post('http://localhost:3001/', state)
+        chakraTool({
+            title: "Listo!",
+            description: "Movimiento cargado",
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: "top-right"
+        })
+    }
+    catch (error) {
+        chakraTool({
+            title: "Error",
+            description: error.message,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: "top-right"
+        })
+    }
+}
+
+
+export const deleteMovement = async (state, chakraTool) => {
+    chakraTool({
+        title: "Procesando...",
+        description: "",
+        status: 'info',
+        duration: 2000,
+        isClosable: true,
+        position: "top-right"
+    })
+    try {
+        await axios.delete('http://localhost:3001/', state)
+        chakraTool({
+            title: "Listo!",
+            description: "Movimiento eliminado",
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: "top-right"
+        })
+    }
+    catch (error) {
+        chakraTool({
+            title: "Error",
+            description: error.message,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: "top-right"
+        })
+    }
+}
+
+
+
+/* 
+    let customDate = item.date.replaceAll('/', '-').split('-').reverse()
+    customDate[1] = `0${customDate[1]}`
+    customDate[2] = `0${customDate[2]}`
+    customDate = customDate.join('-')
+*/
