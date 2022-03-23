@@ -20,6 +20,22 @@ import { balanceInfo, filterButtons } from './utils/constants'
 function App() {
   const [visibleNumbers, setVisibleNumbers] = useState(false);
 
+  let visibleInfo = [
+    {
+      "concept": "Ir al cine",
+      "date": "20/7/2021",
+      "amount": -250,
+      "type": "expense"
+    },
+    {
+      "concept": "Plazo Fijo",
+      "date": "5/7/2021",
+      "amount": 2500,
+      "type": "income"
+    },
+  ]
+
+
   return (
     <Container
       backgroundColor="bgHome"
@@ -91,6 +107,26 @@ function App() {
         })}
 
       </ButtonGroup>
+
+
+      {visibleInfo.length ? <Stack color="white" paddingTop={4}>
+        {
+          visibleInfo.map(element => {
+            // let modal;
+            // element.type === "income" ? modal = onOpenIncomeModal : modal = onOpenExpenseModal
+            return (
+              <MovementInfo
+                key={element.concept}
+                amount={element.amount}
+                concept={element.concept}
+                date={element.date}
+                type={element.type}
+              // modal={modal}
+              // stateManager={setSelectedMovement}
+              />
+            );
+          }).slice(0, 10)}
+      </Stack> : <Stack justifyContent="center" paddingTop={10} alignItems="center"><Spinner color={"green.500"} size="xl" /> </Stack>}
 
 
     </Container>
