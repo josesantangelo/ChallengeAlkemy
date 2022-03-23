@@ -89,7 +89,6 @@ function App() {
       key: 'incomeFilterButton',
       text: "Ingresos",
       hover: { backgroundColor: "green.200" },
-      functionKey: 'income',
       click: filterInfo(originalInfo, 'income')
     },
     {
@@ -102,7 +101,6 @@ function App() {
       key: 'expenseFilterButton',
       text: "Gastos",
       hover: { backgroundColor: "pink.200" },
-      functionKey: 'expense',
       click: filterInfo(originalInfo, 'expense')
     },
   ]

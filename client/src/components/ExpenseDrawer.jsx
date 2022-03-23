@@ -19,23 +19,37 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose }) => {
     return (
         <Drawer
             isOpen={isOpen}
-            placement='right'
+            placement={{ base: "top", sm: "right" }}
             onClose={onClose}
         >
             <DrawerOverlay />
-            <DrawerContent>
+            <DrawerContent maxWidth={{ base: "100%", sm: "30%" }} height={{ base: "100%", sm: "90%" }}>
                 <DrawerCloseButton />
-                <DrawerHeader>Gastos</DrawerHeader>
+                <DrawerHeader marginTop={5}>Nuevo Gasto</DrawerHeader>
 
                 <DrawerBody>
-                    <Input placeholder='Type here...' />
+                    <Stack spacing={8}>
+                        <FormControl isRequired>
+                            <FormLabel textAlign="left">Concepto</FormLabel>
+                            <Input type="text" size="xs" name='concept' />
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel textAlign="left">Fecha</FormLabel>
+                            <Input type="date" size="xs" name='date' />
+
+                        </FormControl>
+                        <FormControl isRequired>
+                            <FormLabel textAlign="left">Total</FormLabel>
+                            <Input type="number" size="xs" name='total' />
+                        </FormControl>
+                    </Stack>
                 </DrawerBody>
 
                 <DrawerFooter>
                     <Button variant='outline' mr={3} onClick={onClose}>
-                        Cancel
+                        Cancelar
                     </Button>
-                    <Button colorScheme='blue'>Save</Button>
+                    <Button colorScheme='red'>Guardar</Button>
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
