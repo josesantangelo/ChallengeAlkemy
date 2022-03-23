@@ -17,7 +17,7 @@ import IncomeDrawer from './components/IncomeDrawer';
 import ExpenseDrawer from './components/ExpenseDrawer';
 import MovementInfo from './components/MovementInfo';
 import { filterButtons } from './utils/constants'
-
+import { getInfo } from './utils/functions'
 
 
 
@@ -40,6 +40,19 @@ function App() {
     onClose: onCloseExpenseDrawer,
   } = useDisclosure();
 
+  //useStates : 
+  const [visibleNumbers, setVisibleNumbers] = useState(false);
+  const [originalInfo, setOriginalInfo] = useState([]);
+  const [visibleInfo, setVisibleInfo] = useState([])
+
+  //useEffects : 
+  useEffect(async () => {
+    let result = await getInfo();
+    setOriginalInfo(result)
+    setVisibleInfo(result)
+  }, [])
+
+
 
   const balanceInfo = [
     {
@@ -60,31 +73,22 @@ function App() {
       modal: onOpenExpenseDrawer,
     },
   ]
-
-
-  //useStates : 
-  const [visibleNumbers, setVisibleNumbers] = useState(false);
-
-
-
-
-
-  let visibleInfo = [
-    {
-      "id": 1,
-      "concept": "Ir al cine",
-      "date": "20/7/2021",
-      "amount": -250,
-      "type": "expense"
-    },
-    {
-      "id": 2,
-      "concept": "Plazo Fijo",
-      "date": "5/7/2021",
-      "amount": 2500,
-      "type": "income"
-    },
-  ]
+  // let visibleInfo = [
+  //   {
+  //     "id": 1,
+  //     "concept": "Ir al cine",
+  //     "date": "20/7/2021",
+  //     "amount": -250,
+  //     "type": "expense"
+  //   },
+  //   {
+  //     "id": 2,
+  //     "concept": "Plazo Fijo",
+  //     "date": "5/7/2021",
+  //     "amount": 2500,
+  //     "type": "income"
+  //   },
+  // ]
 
 
 
