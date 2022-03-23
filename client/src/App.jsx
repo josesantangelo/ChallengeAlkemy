@@ -68,6 +68,12 @@ function App() {
     setaccountBalance(result)
   }, [originalInfo])
 
+  useEffect(async () => {
+    let result = await getInfo();
+    setOriginalInfo(result)
+    setVisibleInfo(result)
+  }, [isOpenIncomeDrawer, isOpenExpenseDrawer]);
+
 
   //maps & aux functions
   const balanceInfo = [
@@ -166,8 +172,7 @@ function App() {
 
                 {visibleNumbers ? (
                   <Stack direction="row" justifyContent="space-between">
-                    {element.info > 0 ? <Text fontSize={16}>${element.info}</Text> :
-                      <Text fontSize={16}>${element.info * - 1}</Text>}
+                    <Text fontSize={16}>${element.info}</Text>
                     {element.eye ? <ViewIcon cursor="pointer" h={5} w={5} onClick={() => setVisibleNumbers(false)} /> : null}
 
                   </Stack>

@@ -22,7 +22,7 @@ import {
     AlertDialogOverlay,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { customizeDate, postMovement, deleteMovement } from '../utils/functions'
+import { customizeDate, postMovement, deleteMovement, getInfo } from '../utils/functions'
 
 const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
     const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()

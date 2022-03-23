@@ -35,7 +35,7 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
         concept: "",
         date: "",
         amount: 0,
-        type: "income",
+        type: "expense",
     })
     const [customDate, setCustomDate] = useState("")
 
@@ -66,7 +66,7 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
             concept: "",
             date: "",
             amount: 0,
-            type: "income",
+            type: "expense",
         })
         setCustomDate('')
         onClose();

@@ -3,8 +3,8 @@ import axios from "axios";
 
 
 export const getInfo = async () => {
-    const info = await axios.get("https://pacific-lowlands-66049.herokuapp.com/");
-    // const info = await axios.get("http://localhost:3001/");
+    // const info = await axios.get("https://pacific-lowlands-66049.herokuapp.com/");
+    const info = await axios.get("http://localhost:3001/");
     const data = info.data;
     return data;
 }
@@ -29,10 +29,13 @@ export const calculateBalance = (arr) => {
         return result
     }
 
+    let incomes = sumAmounts(arr.filter(element => element.type === "income"))
+    let expenses = sumAmounts(arr.filter(element => element.type === "expense"))
+
     result = {
-        balance: sumAmounts(arr),
-        incomes: sumAmounts(arr.filter(element => element.type === "income")),
-        expenses: sumAmounts(arr.filter(element => element.type === "expense")),
+        incomes: incomes,
+        expenses: expenses,
+        balance: incomes - expenses,
     }
     return result;
 }
