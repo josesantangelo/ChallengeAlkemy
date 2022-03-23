@@ -8,7 +8,7 @@ export const balanceInfo = [
         header: "Ingresos",
         // info: incomes,
         add: true,
-        // modal: onOpenIncomeModal,
+        // modal: onOpenIncomeDrawer,
     },
     {
         header: "Gastos",

@@ -16,24 +16,77 @@ import axios from "axios";
 import IncomeDrawer from './components/IncomeDrawer';
 import ExpenseDrawer from './components/ExpenseDrawer';
 import MovementInfo from './components/MovementInfo';
-import { balanceInfo, filterButtons } from './utils/constants'
+import { filterButtons } from './utils/constants'
+
+
+
+
+
+
+
+
+
 function App() {
+  //useDisclosures : 
+  const {
+    isOpen: isOpenIncomeDrawer,
+    onOpen: onOpenIncomeDrawer,
+    onClose: onCloseIncomeDrawer,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenExpenseDrawer,
+    onOpen: onOpenExpenseDrawer,
+    onClose: onCloseExpenseDrawer,
+  } = useDisclosure();
+
+
+  const balanceInfo = [
+    {
+      header: "Balance",
+      // info: balance,
+      add: false,
+    },
+    {
+      header: "Ingresos",
+      // info: incomes,
+      add: true,
+      modal: onOpenIncomeDrawer,
+    },
+    {
+      header: "Gastos",
+      // info: expenses,
+      add: true,
+      modal: onOpenExpenseDrawer,
+    },
+  ]
+
+
+  //useStates : 
   const [visibleNumbers, setVisibleNumbers] = useState(false);
+
+
+
+
 
   let visibleInfo = [
     {
+      "id": 1,
       "concept": "Ir al cine",
       "date": "20/7/2021",
       "amount": -250,
       "type": "expense"
     },
     {
+      "id": 2,
       "concept": "Plazo Fijo",
       "date": "5/7/2021",
       "amount": 2500,
       "type": "income"
     },
   ]
+
+
 
 
   return (
@@ -66,6 +119,7 @@ function App() {
                 justifyContent="center"
                 paddingX={2}
                 paddingY={1}
+                key={element.header}
               >
                 <Stack
                   alignItems="center"
@@ -113,10 +167,10 @@ function App() {
         {
           visibleInfo.map(element => {
             // let modal;
-            // element.type === "income" ? modal = onOpenIncomeModal : modal = onOpenExpenseModal
+            // element.type === "income" ? modal = onOpenIncomeDrawer : modal = onOpenExpenseModal
             return (
               <MovementInfo
-                key={element.concept}
+                key={element.id}
                 amount={element.amount}
                 concept={element.concept}
                 date={element.date}
@@ -126,7 +180,24 @@ function App() {
               />
             );
           }).slice(0, 10)}
-      </Stack> : <Stack justifyContent="center" paddingTop={10} alignItems="center"><Spinner color={"green.500"} size="xl" /> </Stack>}
+      </Stack> :
+        <Stack justifyContent="center" paddingTop={10} alignItems="center">
+          <Spinner color={"green.500"} size="xl" />
+        </Stack>}
+
+      <IncomeDrawer
+        isOpen={isOpenIncomeDrawer}
+        onClose={onCloseIncomeDrawer}
+        onOpen={onOpenIncomeDrawer}
+      />
+
+
+      <ExpenseDrawer
+        isOpen={isOpenExpenseDrawer}
+        onClose={onCloseExpenseDrawer}
+        onOpen={onOpenExpenseDrawer}
+      />
+
 
 
     </Container>
