@@ -75,17 +75,20 @@ function App() {
       header: "Balance",
       info: accountBalance.balance,
       add: false,
+      eye: true,
     },
     {
       header: "Ingresos",
       info: accountBalance.incomes,
       add: true,
+      eye: false,
       modal: onOpenIncomeDrawer,
     },
     {
       header: "Gastos",
       info: accountBalance.expenses,
       add: true,
+      eye: false,
       modal: onOpenExpenseDrawer,
     },
   ]
@@ -131,10 +134,13 @@ function App() {
           borderWidth={2}
           justifyContent="center"
           paddingY={2}
+          flexDirection="row"
+
         >
-          <Heading fontSize={26} letterSpacing={1}>
+          <Heading fontSize={26} letterSpacing={1} flexDirection="row">
             Alkemy-Control
           </Heading>
+
         </Stack>
         <Stack color="white" letterSpacing={1}>
           {balanceInfo.map(element => {
@@ -162,13 +168,14 @@ function App() {
                   <Stack direction="row" justifyContent="space-between">
                     {element.info > 0 ? <Text fontSize={16}>${element.info}</Text> :
                       <Text fontSize={16}>${element.info * - 1}</Text>}
+                    {element.eye ? <ViewIcon cursor="pointer" h={5} w={5} onClick={() => setVisibleNumbers(false)} /> : null}
 
-                    <ViewIcon cursor="pointer" h={5} w={5} onClick={() => setVisibleNumbers(false)} />
                   </Stack>
                 ) : (
                   <Stack direction="row" justifyContent="space-between">
                     <Text fontSize={16}>*****</Text>
-                    <ViewOffIcon cursor="pointer" h={5} w={5} onClick={() => setVisibleNumbers(true)} />
+                    {element.eye ? <ViewOffIcon cursor="pointer" h={5} w={5} onClick={() => setVisibleNumbers(true)} /> : null}
+
                   </Stack>
                 )}
               </Stack>
