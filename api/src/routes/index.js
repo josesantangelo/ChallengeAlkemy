@@ -1,12 +1,32 @@
 const { Router } = require('express');
-// Importar todos los routers;
-// Ejemplo: const authRouter = require('./auth.js');
-
-
 const router = Router();
+const { Movement } = require('../db.js')
 
-// Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
+router.get('/', async (req, res) => {
+    try {
+        const info = await Movement.findAll()
+        res.json(info)
+    }
+    catch (error) {
+        next(error)
+    }
+})
 
+router.post('/', async (req, res) => {
+    const { concept, date, amount, type } = req.body
+    try {
+        const newMovement = Movement.create({
+            concept,
+            date,
+            amount,
+            type
+        })
+        console.log(newMovement)
+        res.json(newMovement)
+    }
+    catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router;
