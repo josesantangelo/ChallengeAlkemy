@@ -16,7 +16,7 @@ import axios from "axios";
 import IncomeDrawer from './components/IncomeDrawer';
 import ExpenseDrawer from './components/ExpenseDrawer';
 import MovementInfo from './components/MovementInfo';
-import { balanceInfo } from './utils/constants'
+import { balanceInfo, filterButtons } from './utils/constants'
 function App() {
   const [visibleNumbers, setVisibleNumbers] = useState(false);
 
@@ -80,6 +80,17 @@ function App() {
           })}
         </Stack>
       </Stack>
+
+      <ButtonGroup flexDirection="row" justifyContent="center" width="full" paddingTop={4} gap={6}>
+        {filterButtons.map(element => {
+          return (
+            <Button key={element.key} colorScheme="whatsapp" fontSize={14} variant="outline" _hover={element.hover}>
+              {element.text}
+            </Button>
+          )
+        })}
+
+      </ButtonGroup>
 
 
     </Container>
