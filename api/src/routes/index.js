@@ -4,7 +4,8 @@ const { Movement } = require('../db.js')
 
 router.get('/', async (req, res, next) => {
     try {
-        const info = await Movement.findAll()
+        let info = await Movement.findAll()
+        info = info.sort((a, b) => b.id - a.id)
         res.json(info)
     }
     catch (error) {
@@ -14,7 +15,7 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     const { concept, date, amount, type } = req.body
-    const concept2 = "pepe"
+
     try {
         const newMovement = await Movement.create({
             concept,
@@ -28,5 +29,28 @@ router.post('/', async (req, res, next) => {
         next(error)
     }
 })
+
+router.put('/', async (req, res, next) => {
+    const { id, concept, date, amount, type } = req.body;
+
+    try {
+        const updatedMovement = await Movement.update({
+            concept,
+            date,
+            amount,
+            type
+
+        },
+            { returning: true, where: { id: id } })
+        res.json(updatedMovement)
+    } catch (error) {
+        next(error)
+    }
+
+
+
+})
+
+router.patch
 
 module.exports = router;
