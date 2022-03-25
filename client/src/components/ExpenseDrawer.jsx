@@ -21,10 +21,9 @@ import {
     AlertDialogContent,
     AlertDialogOverlay,
 } from '@chakra-ui/react'
-import axios from 'axios'
-import { customizeDate, postMovement, deleteMovement } from '../utils/functions'
+import { customizeDate, postMovement, deleteMovement, getInfo, updateMovement } from '../utils/functions'
 
-const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
+const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInfo, setOriginalInfo, setVisibleInfo }) => {
     const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()
     const cancelRef = React.useRef()
     const toast = useToast()
@@ -38,23 +37,13 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
         amount: 0,
         type: "expense",
     })
-    const [customDate, setCustomDate] = useState("")
 
     useEffect(() => {
         item.type ? setModifiedMovement(item) : null
     }, [isOpen])
 
-    useEffect(() => {
-        if (item.date) {
-            let result = customizeDate(item.date)
-            setCustomDate(result)
-        }
 
-    }, [modifiedMovement])
 
-    useEffect(() => {
-        console.log(modifiedMovement)
-    }, [modifiedMovement])
 
     const cleanAndClose = () => {
         stateManager({
@@ -71,7 +60,6 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
             amount: 0,
             type: "expense",
         })
-        setCustomDate('')
         onClose();
     }
 
@@ -99,7 +87,7 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                         </FormControl>
                         <FormControl isRequired>
                             <FormLabel textAlign="left">Fecha</FormLabel>
-                            <Input type="date" size="xs" name='date' defaultValue={customDate} onChange={(e) => {
+                            <Input type="date" size="xs" name='date' defaultValue={item.date} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
                                     date: e.target.value
@@ -112,7 +100,7 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                             <Input type="number" size="xs" name='total' defaultValue={item.amount} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
-                                    amount: e.target.value
+                                    amount: Number(e.target.value),
                                 })
                             }} />
                         </FormControl>
@@ -141,8 +129,12 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                                     <Button ref={cancelRef} onClick={onCloseAlert}>
                                         Cancelar
                                     </Button>
-                                    <Button colorScheme='red' onClick={() => {
-                                        deleteMovement(modifiedMovement, toast);
+                                    <Button colorScheme='red' onClick={async () => {
+                                        await deleteMovement(modifiedMovement, toast);
+                                        let newMovements = [...originalInfo];
+                                        newMovements = newMovements.filter(item => item.id !== modifiedMovement.id)
+                                        setOriginalInfo(newMovements)
+                                        setVisibleInfo(newMovements)
                                         onCloseAlert();
                                         cleanAndClose();
                                     }} ml={3}>
@@ -169,8 +161,23 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                             Cancelar
                         </Button>
                         <Button colorScheme='green'
-                            onClick={() => {
-                                postMovement(modifiedMovement, toast);
+                            onClick={async () => {
+                                let newMovements;
+                                let index;
+                                if (modifiedMovement.id) {
+                                    await updateMovement(modifiedMovement, toast)
+                                    newMovements = [...originalInfo];
+                                    index = newMovements.findIndex(item => item.id === modifiedMovement.id)
+                                    newMovements[index] = modifiedMovement;
+                                    setOriginalInfo(newMovements)
+                                    setVisibleInfo(newMovements)
+                                }
+                                else {
+                                    await postMovement(modifiedMovement, toast);
+                                    newMovements = await getInfo();
+                                    setOriginalInfo(newMovements)
+                                    setVisibleInfo(newMovements)
+                                }
                                 cleanAndClose();
                             }}
                             isDisabled={modifiedMovement.concept.length &&

@@ -21,8 +21,8 @@ import {
     AlertDialogContent,
     AlertDialogOverlay,
 } from '@chakra-ui/react'
-import axios from 'axios'
-import { customizeDate, postMovement, deleteMovement, getInfo, updateMovement, filterInfo } from '../utils/functions'
+
+import { customizeDate, postMovement, deleteMovement, getInfo, updateMovement } from '../utils/functions'
 
 const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInfo, setOriginalInfo, setVisibleInfo }) => {
     const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()
@@ -42,22 +42,12 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInf
         amount: 0,
         type: "income",
     })
-    const [customDate, setCustomDate] = useState("")
 
     useEffect(() => {
         item.type ? setModifiedMovement(item) : null
     }, [isOpen])
 
-    useEffect(() => {
-        if (item.date) {
-            let result = customizeDate(item.date)
-            setCustomDate(result)
-        }
 
-    }, [modifiedMovement])
-
-    useEffect(() => {
-    }, [modifiedMovement])
 
     const cleanAndClose = () => {
         stateManager({
@@ -74,7 +64,6 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInf
             amount: 0,
             type: "income",
         })
-        setCustomDate('')
         onClose();
     }
 
@@ -104,7 +93,7 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInf
                         </FormControl>
                         <FormControl isRequired>
                             <FormLabel textAlign="left">Fecha</FormLabel>
-                            <Input type="date" size="xs" name='date' defaultValue={customDate} onChange={(e) => {
+                            <Input type="date" size="xs" name='date' defaultValue={item.date} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
                                     date: e.target.value

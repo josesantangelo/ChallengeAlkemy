@@ -53,6 +53,7 @@ export const filterInfo = (arr, str) => {
 
 
 export const customizeDate = (str) => {
+    console.log('initial', str)
     let customDate = str.replaceAll('/', '-').split('-').reverse()
     if (customDate[1].length === 1) {
         customDate[1] = `0${customDate[1]}`
@@ -61,6 +62,7 @@ export const customizeDate = (str) => {
         customDate[2] = `0${customDate[2]}`
     }
     customDate = customDate.join('-')
+    console.log('custom func', customDate)
     return customDate
 }
 
@@ -75,10 +77,12 @@ export const postMovement = async (state, chakraTool) => {
         position: "top-right"
     })
     try {
-        await axios.post('http://localhost:3001/', state)
+        let result = await axios.post('http://localhost:3001/', state)
+
+
         chakraTool({
             title: "Listo!",
-            description: "Movimiento cargado",
+            description: result.data,
             status: 'success',
             duration: 5000,
             isClosable: true,
@@ -108,9 +112,10 @@ export const updateMovement = async (state, chakraTool) => {
     })
     try {
         let result = await axios.put('http://localhost:3001/', state)
+
         chakraTool({
             title: "Listo!",
-            // description: result.data,
+            description: result.data,
             status: 'success',
             duration: 5000,
             isClosable: true,
@@ -140,10 +145,10 @@ export const deleteMovement = async (state, chakraTool) => {
         position: "top-right"
     })
     try {
-        await axios.delete('http://localhost:3001/', { data: state })
+        let result = await axios.delete('http://localhost:3001/', { data: state })
         chakraTool({
             title: "Listo!",
-            description: "Movimiento eliminado",
+            description: result.data,
             status: 'success',
             duration: 5000,
             isClosable: true,

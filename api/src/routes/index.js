@@ -24,7 +24,7 @@ router.post('/', async (req, res, next) => {
             amount,
             type
         })
-        res.json(newMovement)
+        res.status(200).send(`El movimiento "${concept}" se cargó correctamente.`)
     }
     catch (error) {
         next(error)
@@ -43,9 +43,10 @@ router.put('/', async (req, res, next) => {
 
         },
             { returning: true, where: { id: id } })
-        res.json(updatedMovement)
+        res.status(200).send(`El movimiento "${concept}" fue modificado`)
     } catch (error) {
         next(error)
+        res.status(400).send(`El movimiento no pudo modificarse ${error.message}`)
     }
 
 

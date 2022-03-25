@@ -3,6 +3,7 @@ import { EditIcon } from "@chakra-ui/icons";
 import { RiEmotionHappyLine, RiEmotionUnhappyLine } from 'react-icons/ri'
 
 const MovementInfo = ({ id, concept, date, amount, type, modal, stateManager }) => {
+    let customDate = date.split('-').reverse().join('-')
     return (
         <Stack
             direction="row"
@@ -17,7 +18,7 @@ const MovementInfo = ({ id, concept, date, amount, type, modal, stateManager }) 
                 {type === 'income' ? <RiEmotionHappyLine /> : <RiEmotionUnhappyLine />}
                 <Stack alignItems="flex-start" spacing={0} justifyContent="flex-end">
                     <Text fontSize={14}>{concept}</Text>
-                    <Text fontSize={10}> {date}</Text>
+                    <Text fontSize={10}> {customDate}</Text>
                 </Stack>
             </Stack>
 
