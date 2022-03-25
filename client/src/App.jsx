@@ -56,9 +56,7 @@ function App() {
     let result = await getInfo();
     setOriginalInfo(result)
     setVisibleInfo(result)
-    if (result.length) {
-      setLoading(false)
-    }
+    setLoading(false)
   }, [])
 
   useEffect(() => {
@@ -66,11 +64,7 @@ function App() {
     setaccountBalance(result)
   }, [originalInfo])
 
-  // useEffect(async () => {
-  //   let result = await getInfo();
-  //   setOriginalInfo(result)
-  //   setVisibleInfo(result)
-  // }, [isOpenIncomeDrawer, isOpenExpenseDrawer]);
+
 
 
   //maps & aux functions
@@ -101,19 +95,19 @@ function App() {
     {
       key: 'incomeFilterButton',
       text: "Ingresos",
-      hover: { backgroundColor: "green.200" },
+      hover: { backgroundColor: "income", color: "white", transition: "all ease 0.5s" },
       click: filterInfo(originalInfo, 'income')
     },
     {
       key: 'clearFiltersButton',
       text: "Ver todo",
-      hover: { backgroundColor: "gray.200" },
+      hover: { backgroundColor: "blue.600", color: "white", transition: "all ease 0.5s" },
       click: filterInfo(originalInfo, '')
     },
     {
       key: 'expenseFilterButton',
       text: "Gastos",
-      hover: { backgroundColor: "pink.200" },
+      hover: { backgroundColor: "expense", color: "white", transition: "all ease 0.5s" },
       click: filterInfo(originalInfo, 'expense')
     },
   ]
@@ -170,7 +164,8 @@ function App() {
 
                 {visibleNumbers ? (
                   <Stack direction="row" justifyContent="space-between">
-                    <Text fontSize={16}>${element.info}</Text>
+                    {element.info > 0 ? <Text fontSize={16}>${element.info}</Text> : <Text fontSize={16}>- ${element.info * -1}</Text>}
+
                     {element.eye ? <ViewIcon cursor="pointer" h={5} w={5} onClick={() => setVisibleNumbers(false)} /> : null}
 
                   </Stack>
@@ -224,7 +219,8 @@ function App() {
               />
             );
           }).slice(0, 10)}
-      </Stack> : <Stack justifyContent="center" paddingTop={10} alignItems="center"> <Text>No hay movimientos para mostrar.</Text></Stack>}
+      </Stack> : <Stack justifyContent="center" paddingTop={10} alignItems="center" flexDirection="column"> <Text textAlign="center">No hay movimientos para mostrar.
+      </Text><Text>Carga tu primer movimiento desde el icono " + " correspondiente.</Text></Stack>}
 
 
 
