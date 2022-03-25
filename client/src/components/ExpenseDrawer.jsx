@@ -21,15 +21,10 @@ import {
     AlertDialogContent,
     AlertDialogOverlay,
 } from '@chakra-ui/react'
-import { customizeDate, postMovement, deleteMovement, getInfo, updateMovement } from '../utils/functions'
+import { postMovement, deleteMovement, getInfo, updateMovement } from '../utils/functions'
 
 const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInfo, setOriginalInfo, setVisibleInfo }) => {
-    const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()
-    const cancelRef = React.useRef()
-    const toast = useToast()
-
-
-
+    //useStates :
     const [modifiedMovement, setModifiedMovement] = useState({
         id: "",
         concept: "",
@@ -37,14 +32,16 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalIn
         amount: 0,
         type: "expense",
     })
-
+    //useDisclosures : 
+    const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()
+    //useEffects :
     useEffect(() => {
         item.type ? setModifiedMovement(item) : null
     }, [isOpen])
-
-
-
-
+    //initializations : 
+    const cancelRef = React.useRef()
+    const toast = useToast()
+    //functions & aux : 
     const cleanAndClose = () => {
         stateManager({
             id: "",
@@ -62,7 +59,6 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalIn
         })
         onClose();
     }
-
     return (
         <Drawer
             isOpen={isOpen}

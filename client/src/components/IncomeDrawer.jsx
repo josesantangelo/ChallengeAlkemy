@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
     Stack,
     Button,
@@ -22,19 +22,10 @@ import {
     AlertDialogOverlay,
 } from '@chakra-ui/react'
 
-import { customizeDate, postMovement, deleteMovement, getInfo, updateMovement } from '../utils/functions'
+import { postMovement, deleteMovement, updateMovement } from '../utils/functions'
 
-const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInfo, setOriginalInfo, setVisibleInfo }) => {
-    const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()
-    const cancelRef = React.useRef()
-    const toast = useToast()
-
-
-
-
-
-
-
+const IncomeDrawer = ({ isOpen, onClose, item, stateManager, originalInfo, setOriginalInfo, setVisibleInfo }) => {
+    //useStates :
     const [modifiedMovement, setModifiedMovement] = useState({
         id: "",
         concept: "",
@@ -42,13 +33,16 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInf
         amount: 0,
         type: "income",
     })
-
+    //useDisclosures :
+    const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()
+    //useEffects : 
     useEffect(() => {
         item.type ? setModifiedMovement(item) : null
     }, [isOpen])
-
-
-
+    //initializations : 
+    const cancelRef = useRef()
+    const toast = useToast()
+    //functions & aux : 
     const cleanAndClose = () => {
         stateManager({
             id: "",
@@ -119,7 +113,6 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInf
                         isOpen={isOpenAlert}
                         leastDestructiveRef={cancelRef}
                         onClose={onCloseAlert}
-
                     >
                         <AlertDialogOverlay>
                             <AlertDialogContent>
