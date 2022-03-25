@@ -32,6 +32,7 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
 
 
     const [modifiedMovement, setModifiedMovement] = useState({
+        id: "",
         concept: "",
         date: "",
         amount: 0,
@@ -57,12 +58,14 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
 
     const cleanAndClose = () => {
         stateManager({
+            id: "",
             concept: "",
             date: "",
             amount: 0,
             type: "",
         });
         setModifiedMovement({
+            id: "",
             concept: "",
             date: "",
             amount: 0,
@@ -79,7 +82,7 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
             onClose={cleanAndClose}
         >
             <DrawerOverlay />
-            <DrawerContent maxWidth={{ base: "100%", sm: "30%" }} height={{ base: "100%", sm: "90%" }}>
+            <DrawerContent maxWidth={{ base: "100%", sm: "30%" }} height="100%">
                 <DrawerCloseButton />
                 <DrawerHeader marginTop={5}>{item.concept ? "Modificar gasto" : "Nuevo gasto"}</DrawerHeader>
 
@@ -141,7 +144,7 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                                     <Button colorScheme='red' onClick={() => {
                                         deleteMovement(modifiedMovement, toast);
                                         onCloseAlert();
-                                        onClose();
+                                        cleanAndClose();
                                     }} ml={3}>
                                         Eliminar
                                     </Button>
@@ -168,7 +171,7 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                         <Button colorScheme='green'
                             onClick={() => {
                                 postMovement(modifiedMovement, toast);
-                                onClose();
+                                cleanAndClose();
                             }}
                             isDisabled={modifiedMovement.concept.length &&
                                 modifiedMovement.date.length && modifiedMovement.amount

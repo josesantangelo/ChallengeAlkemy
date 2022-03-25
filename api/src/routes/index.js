@@ -55,6 +55,7 @@ router.put('/', async (req, res, next) => {
 router.delete('/', async (req, res, next) => {
     const { id, concept, date, amount, type } = req.body;
     let customDate = customizeDate(date)
+
     try {
         let targetMovement = await Movement.findByPk(id)
         if (!targetMovement) {
@@ -65,7 +66,7 @@ router.delete('/', async (req, res, next) => {
                 id: targetMovement.id
             }
         })
-        res.status(200).send(`El movimiento ${concept}, con fecha ${customDate}, ha sido eliminado.`)
+        res.status(200).send(`El movimiento ${targetMovement.concept}, con fecha ${customDate}, ha sido eliminado.`)
     } catch (error) {
         next(error)
     }

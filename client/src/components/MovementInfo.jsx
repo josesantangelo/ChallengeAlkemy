@@ -2,7 +2,7 @@ import { Stack, Text } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { RiEmotionHappyLine, RiEmotionUnhappyLine } from 'react-icons/ri'
 
-const MovementInfo = ({ concept, date, amount, type, modal, stateManager }) => {
+const MovementInfo = ({ id, concept, date, amount, type, modal, stateManager }) => {
     return (
         <Stack
             direction="row"
@@ -29,6 +29,7 @@ const MovementInfo = ({ concept, date, amount, type, modal, stateManager }) => {
             >
                 <EditIcon w={4} h={4} cursor="pointer" onClick={() => {
                     stateManager({
+                        id: id,
                         concept: concept,
                         date: date,
                         amount: amount,

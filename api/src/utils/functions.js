@@ -1,5 +1,8 @@
 
 const customizeDate = (str) => {
+    if (!str) {
+        return;
+    }
     let customDate = str.replaceAll('/', '-').split('-').reverse()
     if (customDate[1].length === 1) {
         customDate[1] = `0${customDate[1]}`

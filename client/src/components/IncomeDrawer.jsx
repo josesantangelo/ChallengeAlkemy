@@ -22,7 +22,7 @@ import {
     AlertDialogOverlay,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { customizeDate, postMovement, deleteMovement, getInfo } from '../utils/functions'
+import { customizeDate, postMovement, deleteMovement, getInfo, updateMovement } from '../utils/functions'
 
 const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
     const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()
@@ -36,6 +36,7 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
 
 
     const [modifiedMovement, setModifiedMovement] = useState({
+        id: "",
         concept: "",
         date: "",
         amount: 0,
@@ -61,12 +62,14 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
 
     const cleanAndClose = () => {
         stateManager({
+            id: "",
             concept: "",
             date: "",
             amount: 0,
             type: "",
         });
         setModifiedMovement({
+            id: "",
             concept: "",
             date: "",
             amount: 0,
@@ -85,7 +88,7 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
             onClose={cleanAndClose}
         >
             <DrawerOverlay />
-            <DrawerContent maxWidth={{ base: "100%", sm: "30%" }} height={{ base: "100%", sm: "90%" }}>
+            <DrawerContent maxWidth={{ base: "100%", sm: "30%" }} height="100%">
                 <DrawerCloseButton />
                 <DrawerHeader marginTop={5}>{item.concept ? "Modificar Ingreso" : "Nuevo Ingreso"}</DrawerHeader>
 
@@ -173,8 +176,13 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                         </Button>
                         <Button colorScheme='green'
                             onClick={() => {
-                                postMovement(modifiedMovement, toast);
-                                onClose();
+                                if (modifiedMovement.id) {
+                                    updateMovement(modifiedMovement, toast)
+                                }
+                                else {
+                                    postMovement(modifiedMovement, toast);
+                                }
+                                cleanAndClose();
                             }}
                             isDisabled={modifiedMovement.concept.length &&
                                 modifiedMovement.date.length && modifiedMovement.amount

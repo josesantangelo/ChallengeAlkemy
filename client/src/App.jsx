@@ -19,13 +19,6 @@ import MovementInfo from './components/MovementInfo';
 // import { filterButtons } from './utils/constants'
 import { getInfo, calculateBalance, filterInfo } from './utils/functions'
 
-
-
-
-
-
-
-
 function App() {
   //useDisclosures : 
   const {
@@ -50,6 +43,7 @@ function App() {
     expenses: 0,
   })
   const [selectedMovement, setSelectedMovement] = useState({
+    id: "",
     concept: "",
     date: "",
     amount: 0,
@@ -214,6 +208,7 @@ function App() {
             return (
               <MovementInfo
                 key={element.id}
+                id={element.id}
                 amount={element.amount}
                 concept={element.concept}
                 date={element.date}

@@ -97,6 +97,38 @@ export const postMovement = async (state, chakraTool) => {
     }
 }
 
+export const updateMovement = async (state, chakraTool) => {
+    chakraTool({
+        title: "Procesando...",
+        description: "",
+        status: 'info',
+        duration: 2000,
+        isClosable: true,
+        position: "top-right"
+    })
+    try {
+        let result = await axios.put('http://localhost:3001/', state)
+        chakraTool({
+            title: "Listo!",
+            description: result.data,
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: "top-right"
+        })
+    }
+    catch (error) {
+        chakraTool({
+            title: "Error",
+            description: error.message,
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: "top-right"
+        })
+    }
+}
+
 
 export const deleteMovement = async (state, chakraTool) => {
     chakraTool({
@@ -108,7 +140,7 @@ export const deleteMovement = async (state, chakraTool) => {
         position: "top-right"
     })
     try {
-        await axios.delete('http://localhost:3001/', state)
+        await axios.delete('http://localhost:3001/', { data: state })
         chakraTool({
             title: "Listo!",
             description: "Movimiento eliminado",
