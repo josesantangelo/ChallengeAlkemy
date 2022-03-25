@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
-const { Movement } = require('../db.js')
+const { Movement } = require('../db.js');
+const { customizeDate } = require('../utils/functions.js');
 
 router.get('/', async (req, res, next) => {
     try {
@@ -49,6 +50,25 @@ router.put('/', async (req, res, next) => {
 
 
 
+})
+
+router.delete('/', async (req, res, next) => {
+    const { id, concept, date, amount, type } = req.body;
+    let customDate = customizeDate(date)
+    try {
+        let targetMovement = await Movement.findByPk(id)
+        if (!targetMovement) {
+            res.status(400).send(`no hay movimientos con el id ${id}`)
+        }
+        await Movement.destroy({
+            where: {
+                id: targetMovement.id
+            }
+        })
+        res.status(200).send(`El movimiento ${concept}, con fecha ${customDate}, ha sido eliminado.`)
+    } catch (error) {
+        next(error)
+    }
 })
 
 router.patch
