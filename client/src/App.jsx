@@ -238,6 +238,7 @@ function App() {
         originalInfo={originalInfo}
         setOriginalInfo={setOriginalInfo}
         setVisibleInfo={setVisibleInfo}
+        setLoading={setLoading}
 
       />
 
@@ -251,6 +252,7 @@ function App() {
         setOriginalInfo={setOriginalInfo}
         setVisibleInfo={setVisibleInfo}
         originalInfo={originalInfo}
+        setLoading={setLoading}
       />
 
 

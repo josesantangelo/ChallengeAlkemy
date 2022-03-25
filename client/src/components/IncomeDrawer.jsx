@@ -24,7 +24,7 @@ import {
 
 import { postMovement, deleteMovement, updateMovement } from '../utils/functions'
 
-const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo, setOriginalInfo, setVisibleInfo }) => {
+const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo, setOriginalInfo, setVisibleInfo, setLoading }) => {
     //useStates :
     const [modifiedMovement, setModifiedMovement] = useState({
         id: "",
@@ -58,6 +58,7 @@ const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo
             amount: 0,
             type: "income",
         })
+        setLoading(false);
         onClose();
     }
 

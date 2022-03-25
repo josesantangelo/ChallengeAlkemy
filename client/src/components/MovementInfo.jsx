@@ -45,8 +45,8 @@ const MovementInfo = ({ id, concept, date, amount, type, modal, setSelectedMovem
                 paddingTop={2}
                 justifyContent="flex-end"
             >
+                {type === 'income' ? <Text fontSize={16}>${amount}</Text> : <Text fontSize={16}>- ${amount}</Text>}
 
-                <Text fontSize={16}>${amount}</Text>
             </Stack>
         </Stack>
     );

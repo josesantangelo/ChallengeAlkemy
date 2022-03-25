@@ -68,14 +68,14 @@ export const customizeDate = (str) => {
 
 
 export const postMovement = async (state, chakraTool) => {
-    chakraTool({
-        title: "Procesando...",
-        description: "",
-        status: 'info',
-        duration: 2000,
-        isClosable: true,
-        position: "top-right"
-    })
+    // chakraTool({
+    //     title: "Procesando...",
+    //     description: "",
+    //     status: 'info',
+    //     duration: 2000,
+    //     isClosable: true,
+    //     position: "top-right"
+    // })
     try {
         let result = await axios.post('http://localhost:3001/', state)
         chakraTool({
@@ -101,14 +101,14 @@ export const postMovement = async (state, chakraTool) => {
 }
 
 export const updateMovement = async (state, chakraTool) => {
-    chakraTool({
-        title: "Procesando...",
-        description: "",
-        status: 'info',
-        duration: 2000,
-        isClosable: true,
-        position: "top-right"
-    })
+    // chakraTool({
+    //     title: "Procesando...",
+    //     description: "",
+    //     status: 'info',
+    //     duration: 2000,
+    //     isClosable: true,
+    //     position: "top-right"
+    // })
     try {
         let result = await axios.put('http://localhost:3001/', state)
 
@@ -135,14 +135,14 @@ export const updateMovement = async (state, chakraTool) => {
 
 
 export const deleteMovement = async (state, chakraTool) => {
-    chakraTool({
-        title: "Procesando...",
-        description: "",
-        status: 'info',
-        duration: 2000,
-        isClosable: true,
-        position: "top-right"
-    })
+    // chakraTool({
+    //     title: "Procesando...",
+    //     description: "",
+    //     status: 'info',
+    //     duration: 2000,
+    //     isClosable: true,
+    //     position: "top-right"
+    // })
     try {
         let result = await axios.delete('http://localhost:3001/', { data: state })
         chakraTool({
