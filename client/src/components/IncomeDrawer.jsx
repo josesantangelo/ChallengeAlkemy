@@ -179,8 +179,9 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInf
                                     setVisibleInfo(newMovements)
                                 }
                                 else {
-                                    await postMovement(modifiedMovement, toast);
-                                    newMovements = await getInfo();
+                                    let result = await postMovement(modifiedMovement, toast);
+                                    newMovements = [...originalInfo, result];
+                                    newMovements.sort((a, b) => b.id - a.id)
                                     setOriginalInfo(newMovements)
                                     setVisibleInfo(newMovements)
                                 }

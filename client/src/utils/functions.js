@@ -78,16 +78,15 @@ export const postMovement = async (state, chakraTool) => {
     })
     try {
         let result = await axios.post('http://localhost:3001/', state)
-
-
         chakraTool({
             title: "Listo!",
-            description: result.data,
+            description: `El movimiento "${result.data.concept}" se cargó correctamente.`,
             status: 'success',
             duration: 5000,
             isClosable: true,
             position: "top-right"
         })
+        return result.data
     }
     catch (error) {
         chakraTool({

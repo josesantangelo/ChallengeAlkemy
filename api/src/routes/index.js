@@ -24,7 +24,7 @@ router.post('/', async (req, res, next) => {
             amount,
             type
         })
-        res.status(200).send(`El movimiento "${concept}" se cargó correctamente.`)
+        res.json(newMovement)
     }
     catch (error) {
         next(error)
