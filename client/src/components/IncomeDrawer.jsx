@@ -24,7 +24,7 @@ import {
 
 import { postMovement, deleteMovement, updateMovement } from '../utils/functions'
 
-const IncomeDrawer = ({ isOpen, onClose, item, stateManager, originalInfo, setOriginalInfo, setVisibleInfo }) => {
+const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo, setOriginalInfo, setVisibleInfo }) => {
     //useStates :
     const [modifiedMovement, setModifiedMovement] = useState({
         id: "",
@@ -44,7 +44,7 @@ const IncomeDrawer = ({ isOpen, onClose, item, stateManager, originalInfo, setOr
     const toast = useToast()
     //functions & aux : 
     const cleanAndClose = () => {
-        stateManager({
+        setSelectedMovement({
             id: "",
             concept: "",
             date: "",

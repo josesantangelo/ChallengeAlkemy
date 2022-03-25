@@ -220,7 +220,7 @@ function App() {
                 date={element.date}
                 type={element.type}
                 modal={modal}
-                stateManager={setSelectedMovement}
+                setSelectedMovement={setSelectedMovement}
               />
             );
           }).slice(0, 10)}
@@ -234,7 +234,7 @@ function App() {
         onClose={onCloseIncomeDrawer}
         onOpen={onOpenIncomeDrawer}
         item={selectedMovement}
-        stateManager={setSelectedMovement}
+        setSelectedMovement={setSelectedMovement}
         originalInfo={originalInfo}
         setOriginalInfo={setOriginalInfo}
         setVisibleInfo={setVisibleInfo}
@@ -247,7 +247,7 @@ function App() {
         onClose={onCloseExpenseDrawer}
         onOpen={onOpenExpenseDrawer}
         item={selectedMovement}
-        stateManager={setSelectedMovement}
+        setSelectedMovement={setSelectedMovement}
         setOriginalInfo={setOriginalInfo}
         setVisibleInfo={setVisibleInfo}
         originalInfo={originalInfo}

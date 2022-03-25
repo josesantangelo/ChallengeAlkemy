@@ -23,7 +23,7 @@ import {
 } from '@chakra-ui/react'
 import { postMovement, deleteMovement, getInfo, updateMovement } from '../utils/functions'
 
-const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInfo, setOriginalInfo, setVisibleInfo }) => {
+const ExpenseDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo, setOriginalInfo, setVisibleInfo }) => {
     //useStates :
     const [modifiedMovement, setModifiedMovement] = useState({
         id: "",
@@ -43,7 +43,7 @@ const ExpenseDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalIn
     const toast = useToast()
     //functions & aux : 
     const cleanAndClose = () => {
-        stateManager({
+        setSelectedMovement({
             id: "",
             concept: "",
             date: "",
