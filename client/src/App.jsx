@@ -66,11 +66,11 @@ function App() {
     setaccountBalance(result)
   }, [originalInfo])
 
-  useEffect(async () => {
-    let result = await getInfo();
-    setOriginalInfo(result)
-    setVisibleInfo(result)
-  }, [isOpenIncomeDrawer, isOpenExpenseDrawer]);
+  // useEffect(async () => {
+  //   let result = await getInfo();
+  //   setOriginalInfo(result)
+  //   setVisibleInfo(result)
+  // }, [isOpenIncomeDrawer, isOpenExpenseDrawer]);
 
 
   //maps & aux functions
@@ -235,6 +235,10 @@ function App() {
         onOpen={onOpenIncomeDrawer}
         item={selectedMovement}
         stateManager={setSelectedMovement}
+        originalInfo={originalInfo}
+        setOriginalInfo={setOriginalInfo}
+        setVisibleInfo={setVisibleInfo}
+
       />
 
 
@@ -244,6 +248,9 @@ function App() {
         onOpen={onOpenExpenseDrawer}
         item={selectedMovement}
         stateManager={setSelectedMovement}
+        setOriginalInfo={setOriginalInfo}
+        setVisibleInfo={setVisibleInfo}
+        originalInfo={originalInfo}
       />
 
 

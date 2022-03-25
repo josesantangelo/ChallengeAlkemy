@@ -110,7 +110,7 @@ export const updateMovement = async (state, chakraTool) => {
         let result = await axios.put('http://localhost:3001/', state)
         chakraTool({
             title: "Listo!",
-            description: result.data,
+            // description: result.data,
             status: 'success',
             duration: 5000,
             isClosable: true,
@@ -120,7 +120,7 @@ export const updateMovement = async (state, chakraTool) => {
     catch (error) {
         chakraTool({
             title: "Error",
-            description: error.message,
+            // description: error.message,
             status: 'error',
             duration: 5000,
             isClosable: true,

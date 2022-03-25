@@ -22,9 +22,9 @@ import {
     AlertDialogOverlay,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { customizeDate, postMovement, deleteMovement, getInfo, updateMovement } from '../utils/functions'
+import { customizeDate, postMovement, deleteMovement, getInfo, updateMovement, filterInfo } from '../utils/functions'
 
-const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
+const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager, originalInfo, setOriginalInfo, setVisibleInfo }) => {
     const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()
     const cancelRef = React.useRef()
     const toast = useToast()
@@ -57,7 +57,6 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
     }, [modifiedMovement])
 
     useEffect(() => {
-        console.log(modifiedMovement)
     }, [modifiedMovement])
 
     const cleanAndClose = () => {
@@ -118,7 +117,7 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                             <Input type="number" size="xs" name='total' defaultValue={item.amount} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
-                                    amount: e.target.value
+                                    amount: Number(e.target.value)
                                 })
                             }} />
                         </FormControl>
@@ -147,10 +146,14 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                                     <Button ref={cancelRef} onClick={onCloseAlert}>
                                         Cancelar
                                     </Button>
-                                    <Button colorScheme='red' onClick={() => {
-                                        deleteMovement(modifiedMovement, toast);
+                                    <Button colorScheme='red' onClick={async () => {
+                                        await deleteMovement(modifiedMovement, toast);
+                                        let newMovements = [...originalInfo];
+                                        newMovements = newMovements.filter(item => item.id !== modifiedMovement.id)
+                                        setOriginalInfo(newMovements)
+                                        setVisibleInfo(newMovements)
                                         onCloseAlert();
-                                        onClose();
+                                        cleanAndClose();
                                     }} ml={3}>
                                         Eliminar
                                     </Button>
@@ -175,12 +178,22 @@ const IncomeDrawer = ({ isOpen, onOpen, onClose, item, stateManager }) => {
                             Cancelar
                         </Button>
                         <Button colorScheme='green'
-                            onClick={() => {
+                            onClick={async () => {
+                                let newMovements;
+                                let index;
                                 if (modifiedMovement.id) {
-                                    updateMovement(modifiedMovement, toast)
+                                    await updateMovement(modifiedMovement, toast)
+                                    newMovements = [...originalInfo];
+                                    index = newMovements.findIndex(item => item.id === modifiedMovement.id)
+                                    newMovements[index] = modifiedMovement;
+                                    setOriginalInfo(newMovements)
+                                    setVisibleInfo(newMovements)
                                 }
                                 else {
-                                    postMovement(modifiedMovement, toast);
+                                    await postMovement(modifiedMovement, toast);
+                                    newMovements = await getInfo();
+                                    setOriginalInfo(newMovements)
+                                    setVisibleInfo(newMovements)
                                 }
                                 cleanAndClose();
                             }}
