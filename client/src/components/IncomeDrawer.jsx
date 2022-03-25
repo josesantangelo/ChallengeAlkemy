@@ -72,13 +72,13 @@ const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo
             <DrawerOverlay />
             <DrawerContent maxWidth={{ base: "100%", sm: "30%" }} height="100%">
                 <DrawerCloseButton />
-                <DrawerHeader marginTop={5}>{item.concept ? "Modificar Ingreso" : "Nuevo Ingreso"}</DrawerHeader>
+                <DrawerHeader marginTop={5} fontSize={24}>{item.concept ? "Modificar Ingreso" : "Nuevo Ingreso"}</DrawerHeader>
 
                 <DrawerBody>
-                    <Stack spacing={8}>
+                    <Stack spacing={10}>
                         <FormControl isRequired>
-                            <FormLabel textAlign="left">Concepto</FormLabel>
-                            <Input type="text" size="xs" name='concept' defaultValue={item.concept} onChange={(e) => {
+                            <FormLabel textAlign="left" fontSize={20}>Concepto</FormLabel>
+                            <Input type="text" size="xs" name='concept' defaultValue={item.concept} fontSize={18} height={8} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
                                     concept: e.target.value
@@ -86,8 +86,8 @@ const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo
                             }} />
                         </FormControl>
                         <FormControl isRequired>
-                            <FormLabel textAlign="left">Fecha</FormLabel>
-                            <Input type="date" size="xs" name='date' defaultValue={item.date} onChange={(e) => {
+                            <FormLabel textAlign="left" fontSize={20}>Fecha</FormLabel>
+                            <Input type="date" size="xs" name='date' defaultValue={item.date} fontSize={18} height={8} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
                                     date: e.target.value
@@ -96,8 +96,8 @@ const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo
 
                         </FormControl>
                         <FormControl isRequired>
-                            <FormLabel textAlign="left">Total</FormLabel>
-                            <Input type="number" size="xs" name='total' defaultValue={item.amount} onChange={(e) => {
+                            <FormLabel textAlign="left" fontSize={20}>Total</FormLabel>
+                            <Input type="number" size="xs" name='total' defaultValue={item.amount} fontSize={18} height={8} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
                                     amount: Number(e.target.value)

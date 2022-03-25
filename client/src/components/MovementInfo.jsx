@@ -1,24 +1,41 @@
 import { Stack, Text } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { RiEmotionHappyLine, RiEmotionUnhappyLine } from 'react-icons/ri'
+import theme from "../theme";
 
 const MovementInfo = ({ id, concept, date, amount, type, modal, setSelectedMovement }) => {
     let customDate = date.split('-').reverse().join('-')
+    const { income, expense } = theme.colors
+
+    const handleEdit = () => {
+        setSelectedMovement({
+            id: id,
+            concept: concept,
+            date: date,
+            amount: amount,
+            type: type,
+        });
+        modal();
+    }
     return (
         <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            paddingX={1}
+            paddingX={2}
             paddingY={1}
-            backgroundColor={type}
+            backgroundColor="white"
+            border={type === 'income' ? `1px solid ${income}` : `1px solid ${expense}`}
+            color={type === 'income' ? `${income}` : `${expense}`}
             borderRadius="md"
+            _hover={{ backgroundColor: type === 'income' ? income : expense, color: "white", transition: "all ease 0.5s", cursor: "pointer" }}
+            onClick={handleEdit}
         >
             <Stack direction="row" alignItems="center">
                 {type === 'income' ? <RiEmotionHappyLine /> : <RiEmotionUnhappyLine />}
                 <Stack alignItems="flex-start" spacing={0} justifyContent="flex-end">
-                    <Text fontSize={14}>{concept}</Text>
-                    <Text fontSize={10}> {customDate}</Text>
+                    <Text fontSize={16}>{concept}</Text>
+                    <Text fontSize={12}> {customDate}</Text>
                 </Stack>
             </Stack>
 
@@ -28,18 +45,8 @@ const MovementInfo = ({ id, concept, date, amount, type, modal, setSelectedMovem
                 paddingTop={2}
                 justifyContent="flex-end"
             >
-                <EditIcon w={4} h={4} cursor="pointer" onClick={() => {
-                    setSelectedMovement({
-                        id: id,
-                        concept: concept,
-                        date: date,
-                        amount: amount,
-                        type: type,
-                    });
-                    modal();
-                }} />
-                {amount > 0 ? <Text fontSize={14}>${amount}</Text> : <Text fontSize={14}>${amount * -1}</Text>}
 
+                <Text fontSize={16}>${amount}</Text>
             </Stack>
         </Stack>
     );

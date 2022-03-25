@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
     Stack,
     Button,
@@ -39,7 +39,7 @@ const ExpenseDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
         item.type ? setModifiedMovement(item) : null
     }, [isOpen])
     //initializations : 
-    const cancelRef = React.useRef()
+    const cancelRef = useRef()
     const toast = useToast()
     //functions & aux : 
     const cleanAndClose = () => {
@@ -68,13 +68,13 @@ const ExpenseDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
             <DrawerOverlay />
             <DrawerContent maxWidth={{ base: "100%", sm: "30%" }} height="100%">
                 <DrawerCloseButton />
-                <DrawerHeader marginTop={5}>{item.concept ? "Modificar gasto" : "Nuevo gasto"}</DrawerHeader>
+                <DrawerHeader marginTop={5} fontSize={24}>{item.concept ? "Modificar gasto" : "Nuevo gasto"}</DrawerHeader>
 
                 <DrawerBody>
-                    <Stack spacing={8}>
+                    <Stack spacing={10}>
                         <FormControl isRequired>
-                            <FormLabel textAlign="left">Concepto</FormLabel>
-                            <Input type="text" size="xs" name='concept' defaultValue={item.concept} onChange={(e) => {
+                            <FormLabel textAlign="left" fontSize={20}>Concepto</FormLabel>
+                            <Input type="text" size="xs" name='concept' defaultValue={item.concept} fontSize={18} height={8} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
                                     concept: e.target.value
@@ -82,8 +82,8 @@ const ExpenseDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
                             }} />
                         </FormControl>
                         <FormControl isRequired>
-                            <FormLabel textAlign="left">Fecha</FormLabel>
-                            <Input type="date" size="xs" name='date' defaultValue={item.date} onChange={(e) => {
+                            <FormLabel textAlign="left" fontSize={20}>Fecha</FormLabel>
+                            <Input type="date" size="xs" name='date' defaultValue={item.date} fontSize={18} height={8} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
                                     date: e.target.value
@@ -92,8 +92,8 @@ const ExpenseDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
 
                         </FormControl>
                         <FormControl isRequired>
-                            <FormLabel textAlign="left">Total</FormLabel>
-                            <Input type="number" size="xs" name='total' defaultValue={item.amount} onChange={(e) => {
+                            <FormLabel textAlign="left" fontSize={20}>Total</FormLabel>
+                            <Input type="number" size="xs" name='total' defaultValue={item.amount} fontSize={18} height={8} onChange={(e) => {
                                 setModifiedMovement({
                                     ...modifiedMovement,
                                     amount: Number(e.target.value),
