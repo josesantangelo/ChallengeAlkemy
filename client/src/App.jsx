@@ -36,7 +36,8 @@ function App() {
   //useStates : 
   const [visibleNumbers, setVisibleNumbers] = useState(false);
   const [originalInfo, setOriginalInfo] = useState([]);
-  const [visibleInfo, setVisibleInfo] = useState([])
+  const [visibleInfo, setVisibleInfo] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [accountBalance, setaccountBalance] = useState({
     balance: 0,
     incomes: 0,
@@ -55,6 +56,9 @@ function App() {
     let result = await getInfo();
     setOriginalInfo(result)
     setVisibleInfo(result)
+    if (result.length) {
+      setLoading(false)
+    }
   }, [])
 
   useEffect(() => {
@@ -200,7 +204,9 @@ function App() {
       </ButtonGroup>
 
 
-      {visibleInfo.length ? <Stack color="white" paddingTop={4}>
+      {loading ? <Stack justifyContent="center" paddingTop={10} alignItems="center">
+        <Spinner color={"green.500"} size="xl" />
+      </Stack> : visibleInfo.length ? <Stack color="white" paddingTop={4}>
         {
           visibleInfo.map(element => {
             let modal;
@@ -218,10 +224,10 @@ function App() {
               />
             );
           }).slice(0, 10)}
-      </Stack> :
-        <Stack justifyContent="center" paddingTop={10} alignItems="center">
-          <Spinner color={"green.500"} size="xl" />
-        </Stack>}
+      </Stack> : <Stack justifyContent="center" paddingTop={10} alignItems="center"> <Text>No hay movimientos para mostrar.</Text></Stack>}
+
+
+
 
       <IncomeDrawer
         isOpen={isOpenIncomeDrawer}
