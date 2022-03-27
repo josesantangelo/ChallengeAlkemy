@@ -8,7 +8,7 @@ import axios from 'axios'
 
 // dotenv.config();
 
-axios.defaults.baseURL = import.meta.env.REACT_APP_API || "http://localhost:3001"
+axios.defaults.baseURL = "https://alkemy-challenge-jls.herokuapp.com" || "http://localhost:3001"
 console.log(import.meta.env)
 console.log(axios.defaults)
 ReactDOM.render(
