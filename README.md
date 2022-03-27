@@ -4,4 +4,4 @@ Challenge para aplicar a la aceleración Fullstack. El backend esta realizado co
 
    En caso de querer correr el proyecto local, será necesario crear manualmente una base de datos llamada "alkemy", ya que el ORM Sequelize no es capaz de crearla. Una vez creada la base de datos e instaladas las dependencias, deberan correrse los comandos npm start en la carpeta api/, y npm run dev en la carpeta client/
    
-    Igualmente, el proyecto esta deployado y puede probarse desde https://challenge-alkemy-qssz3sv1n-josesantangelo.vercel.app/
+    Igualmente, el proyecto esta deployado y puede probarse desde https://challenge-alkemy-rk25dper6-josesantangelo.vercel.app/
