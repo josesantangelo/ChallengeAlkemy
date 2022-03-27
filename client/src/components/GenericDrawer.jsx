@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Stack,
     Button,
@@ -42,7 +42,6 @@ const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
         isOpen ? setModifiedMovement(item) : setModifiedMovement(initialState)
     }, [isOpen])
     //initializations : 
-    // const cancelRef = useRef()
     const toast = useToast()
     //functions & aux : 
     const cleanAndClose = () => {
@@ -53,10 +52,31 @@ const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
     }
 
 
-    const deleteLocalMovement = () => {
-        return;
+    const deleteLocalMovement = (originalArr, compareObj) => {
+        let newMovements = [...originalArr];
+        newMovements = newMovements.filter(item => item.id !== compareObj.id)
+        setOriginalInfo(newMovements)
+        setVisibleInfo(newMovements)
+        onCloseAlert();
+        cleanAndClose();
     }
 
+    const updateLocalMovement = (originalArr, modifiedObj) => {
+        let newMovements = [...originalArr];
+        let index = newMovements.findIndex(item => item.id === modifiedMovement.id)
+        newMovements[index] = modifiedObj;
+        setOriginalInfo(newMovements)
+        setVisibleInfo(newMovements)
+        console.log('done update')
+    }
+
+    const postLocalMovement = (originalArr, objAdded) => {
+        let newMovements = [...originalArr, objAdded];
+        newMovements.sort((a, b) => b.id - a.id)
+        setOriginalInfo(newMovements)
+        setVisibleInfo(newMovements)
+        console.log('done post')
+    }
     const setTitle = (obj) => {
         if (obj.type === "income") {
             if (obj.id) {
@@ -121,7 +141,6 @@ const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
 
                     <AlertDialog
                         isOpen={isOpenAlert}
-                        // leastDestructiveRef={cancelRef}
                         onClose={onCloseAlert}
                     >
                         <AlertDialogOverlay>
@@ -140,12 +159,7 @@ const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
                                     </Button>
                                     <Button colorScheme='red' onClick={async () => {
                                         await deleteMovement(modifiedMovement, toast);
-                                        let newMovements = [...originalInfo];
-                                        newMovements = newMovements.filter(item => item.id !== modifiedMovement.id)
-                                        setOriginalInfo(newMovements)
-                                        setVisibleInfo(newMovements)
-                                        onCloseAlert();
-                                        cleanAndClose();
+                                        deleteLocalMovement(originalInfo, modifiedMovement)
                                     }} ml={3}>
                                         Eliminar
                                     </Button>
@@ -175,18 +189,12 @@ const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
                                 let index;
                                 if (modifiedMovement.id) {
                                     await updateMovement(modifiedMovement, toast)
-                                    newMovements = [...originalInfo];
-                                    index = newMovements.findIndex(item => item.id === modifiedMovement.id)
-                                    newMovements[index] = modifiedMovement;
-                                    setOriginalInfo(newMovements)
-                                    setVisibleInfo(newMovements)
+                                    updateLocalMovement(originalInfo, modifiedMovement)
+
                                 }
                                 else {
                                     let result = await postMovement(modifiedMovement, toast);
-                                    newMovements = [...originalInfo, result];
-                                    newMovements.sort((a, b) => b.id - a.id)
-                                    setOriginalInfo(newMovements)
-                                    setVisibleInfo(newMovements)
+                                    postLocalMovement(originalInfo, result)
                                 }
                                 cleanAndClose();
                             }}
