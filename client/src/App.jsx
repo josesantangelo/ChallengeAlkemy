@@ -13,10 +13,17 @@ import {
 import { AddIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons"
 import GenericDrawer from './components/GenericDrawer';
 import MovementInfo from './components/MovementInfo';
-// import { filterButtons } from './utils/constants'
 import { getInfo, calculateBalance, filterInfo } from './utils/functions'
 
 function App() {
+  const initialState = {
+    id: "",
+    concept: "",
+    date: "",
+    amount: 0,
+    type: "",
+  }
+
   //useDisclosures : 
   const {
     isOpen: isOpenGenericDrawer,
@@ -34,13 +41,7 @@ function App() {
     incomes: 0,
     expenses: 0,
   })
-  const [selectedMovement, setSelectedMovement] = useState({
-    id: "",
-    concept: "",
-    date: "",
-    amount: 0,
-    type: "",
-  });
+  const [selectedMovement, setSelectedMovement] = useState(initialState);
 
   //useEffects : 
   useEffect(async () => {
@@ -56,13 +57,7 @@ function App() {
   }, [originalInfo])
 
 
-  const initialState = {
-    id: "",
-    concept: "",
-    date: "",
-    amount: 0,
-    type: "",
-  }
+
 
   //maps & aux functions
   const balanceInfo = [
@@ -72,20 +67,6 @@ function App() {
       add: false,
       eye: true,
     },
-    // {
-    //   header: "Ingresos",
-    //   info: accountBalance.incomes,
-    //   add: true,
-    //   eye: false,
-    //   modal: onOpenIncomeDrawer,
-    // },
-    // {
-    //   header: "Gastos",
-    //   info: accountBalance.expenses,
-    //   add: true,
-    //   eye: false,
-    //   modal: onOpenExpenseDrawer,
-    // },
     {
       header: "Ingresos",
       info: accountBalance.incomes,
@@ -184,7 +165,7 @@ function App() {
                   <Heading fontSize={22}>{element.header}</Heading>
                   {element.add ? <AddIcon cursor="pointer" h={3} w={3} onClick={() => {
                     setSelectedMovement(element.emptyMovement)
-                    element.modal();
+                    onOpenGenericDrawer();
                   }} /> : null}
 
                 </Stack>

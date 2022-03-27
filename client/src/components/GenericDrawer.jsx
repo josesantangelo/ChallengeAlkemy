@@ -43,6 +43,7 @@ const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
     }, [isOpen])
     //initializations : 
     const toast = useToast()
+
     //functions & aux : 
     const cleanAndClose = () => {
         setSelectedMovement(initialState);
@@ -185,12 +186,9 @@ const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
                         </Button>
                         <Button colorScheme='green'
                             onClick={async () => {
-                                let newMovements;
-                                let index;
                                 if (modifiedMovement.id) {
                                     await updateMovement(modifiedMovement, toast)
                                     updateLocalMovement(originalInfo, modifiedMovement)
-
                                 }
                                 else {
                                     let result = await postMovement(modifiedMovement, toast);
