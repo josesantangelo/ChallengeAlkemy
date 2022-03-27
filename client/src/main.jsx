@@ -3,7 +3,14 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import { ChakraProvider } from '@chakra-ui/react'
 import theme from './theme'
+import dotenv from 'dotenv'
+import axios from 'axios'
 
+// dotenv.config();
+
+axios.defaults.baseURL = import.meta.env.REACT_APP_API || "http://localhost:3001"
+console.log(import.meta.env)
+console.log(axios.defaults)
 ReactDOM.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>

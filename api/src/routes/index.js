@@ -54,7 +54,7 @@ router.put('/', async (req, res, next) => {
 })
 
 router.delete('/', async (req, res, next) => {
-    const { id, concept, date, amount, type } = req.body;
+    const { id, date } = req.body;
     let customDate = customizeDate(date)
 
     try {
@@ -73,6 +73,13 @@ router.delete('/', async (req, res, next) => {
     }
 })
 
-router.patch
+router.get('/test', async (req, res, next) => {
+    try {
+        res.status(200).send('deploy succesfull!')
+    }
+    catch (error) {
+        next(error)
+    }
+})
 
 module.exports = router;

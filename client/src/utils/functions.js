@@ -3,8 +3,8 @@ import axios from "axios";
 
 
 export const getInfo = async () => {
-    // const info = await axios.get("https://pacific-lowlands-66049.herokuapp.com/");
-    const info = await axios.get("http://localhost:3001/");
+
+    const info = await axios.get("/");
     const data = info.data;
     return data;
 }
@@ -68,16 +68,9 @@ export const customizeDate = (str) => {
 
 
 export const postMovement = async (state, chakraTool) => {
-    // chakraTool({
-    //     title: "Procesando...",
-    //     description: "",
-    //     status: 'info',
-    //     duration: 2000,
-    //     isClosable: true,
-    //     position: "top-right"
-    // })
+
     try {
-        let result = await axios.post('http://localhost:3001/', state)
+        let result = await axios.post('/', state)
         chakraTool({
             title: "Listo!",
             description: `El movimiento "${result.data.concept}" se cargó correctamente.`,
@@ -101,16 +94,9 @@ export const postMovement = async (state, chakraTool) => {
 }
 
 export const updateMovement = async (state, chakraTool) => {
-    // chakraTool({
-    //     title: "Procesando...",
-    //     description: "",
-    //     status: 'info',
-    //     duration: 2000,
-    //     isClosable: true,
-    //     position: "top-right"
-    // })
+
     try {
-        let result = await axios.put('http://localhost:3001/', state)
+        let result = await axios.put('/', state)
 
         chakraTool({
             title: "Listo!",
@@ -135,16 +121,9 @@ export const updateMovement = async (state, chakraTool) => {
 
 
 export const deleteMovement = async (state, chakraTool) => {
-    // chakraTool({
-    //     title: "Procesando...",
-    //     description: "",
-    //     status: 'info',
-    //     duration: 2000,
-    //     isClosable: true,
-    //     position: "top-right"
-    // })
+
     try {
-        let result = await axios.delete('http://localhost:3001/', { data: state })
+        let result = await axios.delete('/', { data: state })
         chakraTool({
             title: "Listo!",
             description: result.data,
@@ -166,11 +145,3 @@ export const deleteMovement = async (state, chakraTool) => {
     }
 }
 
-
-
-/* 
-    let customDate = item.date.replaceAll('/', '-').split('-').reverse()
-    customDate[1] = `0${customDate[1]}`
-    customDate[2] = `0${customDate[2]}`
-    customDate = customDate.join('-')
-*/
