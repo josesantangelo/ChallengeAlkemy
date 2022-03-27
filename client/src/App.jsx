@@ -11,10 +11,7 @@ import {
   ButtonGroup
 } from "@chakra-ui/react";
 import { AddIcon, ViewIcon, ViewOffIcon } from "@chakra-ui/icons"
-import axios from "axios";
-
-import IncomeDrawer from './components/IncomeDrawer';
-import ExpenseDrawer from './components/ExpenseDrawer';
+import GenericDrawer from './components/GenericDrawer';
 import MovementInfo from './components/MovementInfo';
 // import { filterButtons } from './utils/constants'
 import { getInfo, calculateBalance, filterInfo } from './utils/functions'
@@ -22,15 +19,9 @@ import { getInfo, calculateBalance, filterInfo } from './utils/functions'
 function App() {
   //useDisclosures : 
   const {
-    isOpen: isOpenIncomeDrawer,
-    onOpen: onOpenIncomeDrawer,
-    onClose: onCloseIncomeDrawer,
-  } = useDisclosure();
-
-  const {
-    isOpen: isOpenExpenseDrawer,
-    onOpen: onOpenExpenseDrawer,
-    onClose: onCloseExpenseDrawer,
+    isOpen: isOpenGenericDrawer,
+    onOpen: onOpenGenericDrawer,
+    onClose: onCloseGenericDrawer,
   } = useDisclosure();
 
   //useStates : 
@@ -65,7 +56,13 @@ function App() {
   }, [originalInfo])
 
 
-
+  const initialState = {
+    id: "",
+    concept: "",
+    date: "",
+    amount: 0,
+    type: "",
+  }
 
   //maps & aux functions
   const balanceInfo = [
@@ -75,20 +72,47 @@ function App() {
       add: false,
       eye: true,
     },
+    // {
+    //   header: "Ingresos",
+    //   info: accountBalance.incomes,
+    //   add: true,
+    //   eye: false,
+    //   modal: onOpenIncomeDrawer,
+    // },
+    // {
+    //   header: "Gastos",
+    //   info: accountBalance.expenses,
+    //   add: true,
+    //   eye: false,
+    //   modal: onOpenExpenseDrawer,
+    // },
     {
       header: "Ingresos",
       info: accountBalance.incomes,
       add: true,
       eye: false,
-      modal: onOpenIncomeDrawer,
+      emptyMovement: {
+        ...initialState,
+        type: "income"
+      },
+      modal: onOpenGenericDrawer,
     },
     {
       header: "Gastos",
       info: accountBalance.expenses,
       add: true,
       eye: false,
-      modal: onOpenExpenseDrawer,
+      emptyMovement: {
+        id: "",
+        concept: "",
+        date: "",
+        amount: 0,
+        type: "expense"
+      },
+      modal: onOpenGenericDrawer,
     },
+
+
   ]
 
   const filterButtons = [
@@ -158,13 +182,16 @@ function App() {
                   paddingRight={1}
                 >
                   <Heading fontSize={22}>{element.header}</Heading>
-                  {element.add ? <AddIcon cursor="pointer" h={3} w={3} onClick={element.modal} /> : null}
+                  {element.add ? <AddIcon cursor="pointer" h={3} w={3} onClick={() => {
+                    setSelectedMovement(element.emptyMovement)
+                    element.modal();
+                  }} /> : null}
 
                 </Stack>
 
                 {visibleNumbers ? (
                   <Stack direction="row" justifyContent="space-between">
-                    {element.info > 0 ? <Text fontSize={16}>${element.info}</Text> : <Text fontSize={16}>- ${element.info * -1}</Text>}
+                    {element.info >= 0 ? <Text fontSize={16}>${element.info}</Text> : <Text fontSize={16}>- ${element.info * -1}</Text>}
 
                     {element.eye ? <ViewIcon cursor="pointer" h={5} w={5} onClick={() => setVisibleNumbers(false)} /> : null}
 
@@ -204,8 +231,6 @@ function App() {
       </Stack> : visibleInfo.length ? <Stack color="white" paddingTop={4}>
         {
           visibleInfo.map(element => {
-            let modal;
-            element.type === "income" ? modal = onOpenIncomeDrawer : modal = onOpenExpenseDrawer
             return (
               <MovementInfo
                 key={element.id}
@@ -214,7 +239,7 @@ function App() {
                 concept={element.concept}
                 date={element.date}
                 type={element.type}
-                modal={modal}
+                onOpenGenericDrawer={onOpenGenericDrawer}
                 setSelectedMovement={setSelectedMovement}
               />
             );
@@ -222,27 +247,10 @@ function App() {
       </Stack> : <Stack justifyContent="center" paddingTop={10} alignItems="center" flexDirection="column"> <Text textAlign="center">No hay movimientos para mostrar.
       </Text><Text>Carga tu primer movimiento desde el icono " + " correspondiente.</Text></Stack>}
 
-
-
-
-      <IncomeDrawer
-        isOpen={isOpenIncomeDrawer}
-        onClose={onCloseIncomeDrawer}
-        onOpen={onOpenIncomeDrawer}
-        item={selectedMovement}
-        setSelectedMovement={setSelectedMovement}
-        originalInfo={originalInfo}
-        setOriginalInfo={setOriginalInfo}
-        setVisibleInfo={setVisibleInfo}
-        setLoading={setLoading}
-
-      />
-
-
-      <ExpenseDrawer
-        isOpen={isOpenExpenseDrawer}
-        onClose={onCloseExpenseDrawer}
-        onOpen={onOpenExpenseDrawer}
+      <GenericDrawer
+        isOpen={isOpenGenericDrawer}
+        onClose={onCloseGenericDrawer}
+        onOpen={onOpenGenericDrawer}
         item={selectedMovement}
         setSelectedMovement={setSelectedMovement}
         setOriginalInfo={setOriginalInfo}
@@ -250,7 +258,6 @@ function App() {
         originalInfo={originalInfo}
         setLoading={setLoading}
       />
-
 
 
     </Container>

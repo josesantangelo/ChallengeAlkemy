@@ -24,44 +24,53 @@ import {
 
 import { postMovement, deleteMovement, updateMovement } from '../utils/functions'
 
-const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo, setOriginalInfo, setVisibleInfo, setLoading }) => {
-    //useStates :
-    const [modifiedMovement, setModifiedMovement] = useState({
+const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo, setOriginalInfo, setVisibleInfo, setLoading }) => {
+
+    const initialState = {
         id: "",
         concept: "",
         date: "",
         amount: 0,
-        type: "income",
-    })
+        type: "",
+    }
+    //useStates :
+    const [modifiedMovement, setModifiedMovement] = useState(initialState)
     //useDisclosures :
     const { isOpen: isOpenAlert, onOpen: onOpenAlert, onClose: onCloseAlert } = useDisclosure()
     //useEffects : 
     useEffect(() => {
-        item.type ? setModifiedMovement(item) : null
+        isOpen ? setModifiedMovement(item) : setModifiedMovement(initialState)
     }, [isOpen])
     //initializations : 
-    const cancelRef = useRef()
+    // const cancelRef = useRef()
     const toast = useToast()
     //functions & aux : 
     const cleanAndClose = () => {
-        setSelectedMovement({
-            id: "",
-            concept: "",
-            date: "",
-            amount: 0,
-            type: "",
-        });
-        setModifiedMovement({
-            id: "",
-            concept: "",
-            date: "",
-            amount: 0,
-            type: "income",
-        })
+        setSelectedMovement(initialState);
+        setModifiedMovement(initialState)
         setLoading(false);
         onClose();
     }
 
+
+    const deleteLocalMovement = () => {
+        return;
+    }
+
+    const setTitle = (obj) => {
+        if (obj.type === "income") {
+            if (obj.id) {
+                return "Modificar ingreso"
+            }
+            return "Nuevo ingreso"
+        }
+        if (obj.type === "expense") {
+            if (obj.id) {
+                return "Modificar gasto"
+            }
+            return "Nuevo gasto"
+        }
+    }
 
 
     return (
@@ -73,7 +82,7 @@ const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo
             <DrawerOverlay />
             <DrawerContent maxWidth={{ base: "100%", sm: "30%" }} height="100%">
                 <DrawerCloseButton />
-                <DrawerHeader marginTop={5} fontSize={24}>{item.concept ? "Modificar Ingreso" : "Nuevo Ingreso"}</DrawerHeader>
+                <DrawerHeader marginTop={5} fontSize={24}>{setTitle(item)}</DrawerHeader>
 
                 <DrawerBody>
                     <Stack spacing={10}>
@@ -112,7 +121,7 @@ const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo
 
                     <AlertDialog
                         isOpen={isOpenAlert}
-                        leastDestructiveRef={cancelRef}
+                        // leastDestructiveRef={cancelRef}
                         onClose={onCloseAlert}
                     >
                         <AlertDialogOverlay>
@@ -126,7 +135,7 @@ const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo
                                 </AlertDialogBody>
 
                                 <AlertDialogFooter>
-                                    <Button ref={cancelRef} onClick={onCloseAlert}>
+                                    <Button onClick={onCloseAlert}>
                                         Cancelar
                                     </Button>
                                     <Button colorScheme='red' onClick={async () => {
@@ -192,4 +201,4 @@ const IncomeDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInfo
     )
 }
 
-export default IncomeDrawer
+export default GenericDrawer

@@ -3,7 +3,7 @@ import { EditIcon } from "@chakra-ui/icons";
 import { RiEmotionHappyLine, RiEmotionUnhappyLine } from 'react-icons/ri'
 import theme from "../theme";
 
-const MovementInfo = ({ id, concept, date, amount, type, modal, setSelectedMovement }) => {
+const MovementInfo = ({ id, concept, date, amount, type, modal, setSelectedMovement, onOpenGenericDrawer }) => {
     let customDate = date.split('-').reverse().join('-')
     const { income, expense } = theme.colors
 
@@ -15,7 +15,7 @@ const MovementInfo = ({ id, concept, date, amount, type, modal, setSelectedMovem
             amount: amount,
             type: type,
         });
-        modal();
+        onOpenGenericDrawer();
     }
     return (
         <Stack
