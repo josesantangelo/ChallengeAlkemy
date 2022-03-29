@@ -201,6 +201,7 @@ const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
                                 ? false : true}
                         >{item.concept ? "Modificar" : "Guardar"}</Button></Stack>
 
+
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>
