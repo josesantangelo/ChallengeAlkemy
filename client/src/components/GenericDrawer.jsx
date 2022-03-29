@@ -197,7 +197,7 @@ const GenericDrawer = ({ isOpen, onClose, item, setSelectedMovement, originalInf
                                 cleanAndClose();
                             }}
                             isDisabled={modifiedMovement.concept.length &&
-                                modifiedMovement.date.length && modifiedMovement.amount
+                                modifiedMovement.date.length && modifiedMovement.amount > 0
                                 ? false : true}
                         >{item.concept ? "Modificar" : "Guardar"}</Button></Stack>
 
